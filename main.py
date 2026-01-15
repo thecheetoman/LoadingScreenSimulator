@@ -26,45 +26,41 @@ phase = PHASE_COMPILING
 # -----------------------------
 # Compiling Shaders State
 # -----------------------------
-TOTAL_SHADERS = 100
+TOTAL_SHADERS = 571
 current_shader = 0
 shader_start_time = pygame.time.get_ticks()
-shader_compile_duration = random.randint(0, 100)  # ms for current shader
+shader_compile_duration = random.randint(0, 50)  # ms for current shader
 
-# -----------------------------
-# Loading Bar State
-# -----------------------------
+#things
 progress = 0.0
-progress_speed = 0.02  # intentionally slow and inconsistent
+progress_speed = 0.0001  # intentionally slow and inconsistent
 
 messages = [
-    "Optimizing coconut physics...",
-    "Reticulating splines...",
-    "Loading assets that don't exist...",
-    "Calibrating loading bar...",
-    "Simulating progress...",
-    "Pretending to load textures...",
-    "Generating meaningless numbers...",
-    "Re-evaluating life choices...",
-    "Rendering the void...",
-    "Almost there (not really)..."
+    "Initializing...",
+    "Loading compiled shaders",
+    "Checking for updates",
+    "Update found",
+    "Downloading update files",
+    "Initializing updater...",
+    "Installing update",
+    "Re-starting back-end",
+    "Attempting to start",
+    "Failed process, try again"
 ]
 
-current_message = random.choice(messages)
+# message system changed to sequential
+message_index = 0
+current_message = messages[message_index]
 message_timer = 0
-message_interval = 2000  # ms
+message_interval = 50000  # ms
 
-# -----------------------------
-# Draw Loading Bar
-# -----------------------------
+#draw bar loading
 def draw_loading_bar(surface, x, y, w, h, progress):
     pygame.draw.rect(surface, (80, 80, 80), (x, y, w, h), border_radius=6)
     inner_width = int(w * progress)
     pygame.draw.rect(surface, (0, 200, 255), (x, y, inner_width, h), border_radius=6)
 
-# -----------------------------
-# Main Loop
-# -----------------------------
+# thing-
 while True:
     dt = clock.tick(60)
 
@@ -75,31 +71,29 @@ while True:
 
     screen.fill((20, 20, 20))
 
-    # -----------------------------
-    # Phase 1: Compiling Shaders
-    # -----------------------------
+    #ue5 simulator
     if phase == PHASE_COMPILING:
         now = pygame.time.get_ticks()
-        # Check if current shader "finished compiling"
+        #  current shader "finished compiling"
         if now - shader_start_time >= shader_compile_duration:
             current_shader += 1
             if current_shader >= TOTAL_SHADERS:
-                # Move to loading phase
+                # loading phase
                 phase = PHASE_LOADING
             else:
-                # Start next shader
+                # next shader
                 shader_start_time = now
                 shader_compile_duration = random.randint(0, 2000)
 
-        # Draw compiling UI
+        # ui is compiling UI
         title = FONT.render("Compiling Shaders...", True, (255, 255, 255))
         screen.blit(title, (WIDTH // 2 - title.get_width() // 2, 80))
 
-        # Progress based on shaders compiled
+        # yes based on shaders compiled
         shader_progress = current_shader / TOTAL_SHADERS
         draw_loading_bar(screen, 150, 200, 500, 40, shader_progress)
 
-        # Shader count text
+        # text is shows count count text
         shader_text = SMALL_FONT.render(
             f"Compiling shader {current_shader}/{TOTAL_SHADERS}",
             True,
@@ -107,27 +101,26 @@ while True:
         )
         screen.blit(shader_text, (WIDTH // 2 - shader_text.get_width() // 2, 260))
 
-        # Estimated nonsense time
+        # tuffness nonsense time
         est_text = SMALL_FONT.render(
-            "Estimated time remaining: unknown",
+            "Estimated time remaining: yes",
             True,
             (150, 150, 150)
         )
         screen.blit(est_text, (WIDTH // 2 - est_text.get_width() // 2, 300))
 
-    # -----------------------------
-    # Phase 2: Eternal Loading
-    # -----------------------------
+    #other part
     elif phase == PHASE_LOADING:
-        # Update fake progress (never reaches 100%)
+        # torture
         progress += progress_speed * (random.random() * 0.5)
         if progress > 0.98:
-            progress = 0.75  # reset slightly to simulate "almost done"
+            progress = 0.75  #never finish
 
-        # Update loading message
+        # updat loading message
         message_timer += dt
         if message_timer >= message_interval:
-            current_message = random.choice(messages)
+            message_index = (message_index + 1) % len(messages)
+            current_message = messages[message_index]
             message_timer = 0
 
         title = FONT.render("Loading...", True, (255, 255, 255))
