@@ -11,7 +11,8 @@ pygame.init()
 WIDTH, HEIGHT = 800, 450
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Loading Screen Simulator")
-
+icon = pygame.image.load("icon.png")
+pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 FONT = pygame.font.SysFont("consolas", 28)
 SMALL_FONT = pygame.font.SysFont("consolas", 20)
