@@ -2,6 +2,12 @@ import pygame
 import sys
 import random
 import time
+import os
+
+def resource_path(relative_path):
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return relative_path
 
 pygame.init()
 
@@ -11,7 +17,7 @@ pygame.init()
 WIDTH, HEIGHT = 800, 450
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Loading Screen Simulator")
-icon = pygame.image.load("icon.png")
+icon = pygame.image.load(resource_path("icon.png"))
 pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 FONT = pygame.font.SysFont("consolas", 28)
